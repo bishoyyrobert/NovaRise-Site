@@ -2,6 +2,8 @@ const express = require("express");
 
 const projects = require("../data/projects.data");
 
+const validateProject = require("../middlewares/validateProject.middleWare");
+
 const router = express.Router();
 
 // GET all projects
@@ -25,7 +27,7 @@ router.get("/:id", (req, res) => {
 });
 
 // POST create new project
-router.post("/", (req, res) => {
+router.post("/", validateProject, (req, res) => {
   const newProject = {
     id: projects.length + 1,
     title: req.body.title,
@@ -44,7 +46,7 @@ router.post("/", (req, res) => {
 });
 
 // PUT update project
-router.put("/:id", (req, res) => {
+router.put("/:id", validateProject, (req, res) => {
   const id = parseInt(req.params.id);
 
   const project = projects.find((project) => project.id === id);
